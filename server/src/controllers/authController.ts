@@ -30,6 +30,26 @@ class AuthController {
       next(error);
     }
   }
+
+  async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await authService.getCurrentUser(req.user!.id);
+
+      return res.json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response) {
+    return res.json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  }
 }
 
 export default new AuthController();

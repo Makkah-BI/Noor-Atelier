@@ -1,16 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 
-import jwt from "jsonwebtoken";
-
-interface JwtPayload {
-  id: string;
-  role: string;
-}
+import { verifyAccessToken } from "../config/jwt";
 
 declare global {
   namespace Express {
     interface Request {
-      user?: JwtPayload;
+      user?: {
+        id: string;
+        role: string;
+      };
     }
   }
 }
@@ -25,22 +23,38 @@ export default function authMiddleware(
   if (!authHeader) {
     return res.status(401).json({
       success: false,
-      message: "Unauthorized",
+      message: "No token provided",
     });
   }
 
-  const token = authHeader.split(" ")[1];
+  const token = authHeader.replace("Bearer ", "");
+
+  {
+    /**try {
+    req.user = verifyAccessToken(token);
+
+    next();
+  } catch {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token",
+    });
+  }*/
+  }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "development-secret",
-    ) as JwtPayload;
+    console.log("Incoming token:", token);
+
+    const decoded = verifyAccessToken(token);
+
+    console.log("Decoded:", decoded);
 
     req.user = decoded;
 
     next();
-  } catch {
+  } catch (error) {
+    console.error("JWT ERROR:", error);
+
     return res.status(401).json({
       success: false,
       message: "Invalid token",

@@ -30,6 +30,8 @@ class AuthService {
       role: user.role,
     });
 
+    console.log("Generated token:", token);
+
     return {
       token,
       user,
@@ -58,6 +60,16 @@ class AuthService {
       token,
       user,
     };
+  }
+
+  async getCurrentUser(id: string) {
+    const user = await authRepository.findById(id);
+
+    if (!user) {
+      throw new AppError("User not found", HTTP_STATUS.NOT_FOUND);
+    }
+
+    return user;
   }
 }
 
