@@ -5,6 +5,8 @@ import authRoutes from "./routes/authRoutes";
 
 import errorMiddleware from "./middleware/errorMiddleware";
 
+import categoryRoutes from "./routes/categoryRoutes";
+
 const app = express();
 
 app.use(cors());
@@ -16,6 +18,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+
+app.use("/api/categories", categoryRoutes);
 
 app.use(errorMiddleware);
 
