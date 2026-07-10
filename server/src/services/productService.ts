@@ -1,11 +1,13 @@
 import productRepository from "../repositories/productRepository";
 
+import { CreateProductDTO, UpdateProductDTO } from "../types/product";
+
 import AppError from "../errors/AppError";
 
 import { HTTP_STATUS } from "../constants/httpStatus";
 
 class ProductService {
-  async create(data: any) {
+  async create(data: CreateProductDTO) {
     const existing = await productRepository.findBySlug(data.slug);
 
     if (existing) {
@@ -29,7 +31,7 @@ class ProductService {
     return product;
   }
 
-  async update(id: string, data: any) {
+  async update(id: string, data: UpdateProductDTO) {
     await this.getById(id);
 
     return productRepository.update(id, data);

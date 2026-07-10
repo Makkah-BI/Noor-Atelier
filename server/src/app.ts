@@ -9,6 +9,8 @@ import categoryRoutes from "./routes/categoryRoutes";
 
 import productRoutes from "./routes/productRoutes";
 
+import productImageRoutes from "./routes/productImageRoutes";
+
 const app = express();
 
 app.use(cors());
@@ -24,6 +26,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 
 app.use("/api/products", productRoutes);
+
+app.use("/api/product-images", productImageRoutes);
 
 app.use(errorMiddleware);
 

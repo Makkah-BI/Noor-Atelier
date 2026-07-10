@@ -1,7 +1,8 @@
 import prisma from "../config/prisma";
+import { CreateProductDTO, UpdateProductDTO } from "../types/product";
 
 class ProductRepository {
-  async create(data: any) {
+  async create(data: CreateProductDTO) {
     return prisma.product.create({
       data,
 
@@ -51,7 +52,7 @@ class ProductRepository {
     });
   }
 
-  async update(id: string, data: any) {
+  async update(id: string, data: UpdateProductDTO) {
     return prisma.product.update({
       where: {
         id,
