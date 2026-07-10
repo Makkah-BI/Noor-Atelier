@@ -62,6 +62,22 @@ class ProductController {
     }
   }
 
+  async search(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products = await productService.search(
+        req.query.search as string,
+        req.query.categoryId as string,
+      );
+
+      res.json({
+        success: true,
+        data: products,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       await productService.delete(req.params.id as string);

@@ -12,6 +12,8 @@ router.get("/:id", productController.getById);
 
 router.patch("/:id", productController.update);
 
+router.get("/search", productController.search);
+
 router.delete("/:id", productController.delete);
 
 export default router;

@@ -37,6 +37,10 @@ class ProductService {
     return productRepository.update(id, data);
   }
 
+  search(search?: string, categoryId?: string) {
+    return productRepository.search(search, categoryId);
+  }
+
   async delete(id: string) {
     await this.getById(id);
 

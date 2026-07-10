@@ -70,6 +70,35 @@ class ProductRepository {
     });
   }
 
+  async search(search?: string, categoryId?: string) {
+    return prisma.product.findMany({
+      where: {
+        AND: [
+          search
+            ? {
+                name: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              }
+            : {},
+
+          categoryId
+            ? {
+                categoryId,
+              }
+            : {},
+        ],
+      },
+
+      include: {
+        images: true,
+        category: true,
+        variants: true,
+      },
+    });
+  }
+
   async delete(id: string) {
     return prisma.product.delete({
       where: {
